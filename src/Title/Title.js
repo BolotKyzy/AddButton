@@ -6,11 +6,10 @@ class Title extends Component {
     this.state = {
       title: '',
       desc: '',
-      t: true
+      situation: true
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleClick = this.handleToggleClick.bind(this);
-    // this.cleanHandler = this.cleanHandler.bind(this);
 
   }
 
@@ -26,33 +25,26 @@ class Title extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  cleanHandler = (event) => {
-    this.setState({ title: '', desc: '' });
+  // cleanHandler = (event) => {
+  //   this.setState({ title: '', desc: '' });
 
-  }
+  // }
   handleToggleClick() {
     this.setState(prevState => ({
-      t: !prevState.t
+      situation: !prevState.situation
     }));
+  }
+  handleToggleClickClean = (event)  => {
+    this.setState({situation:false});
   }
 
 
   render() {
-    const p = this.state.t;
+    const currentSituation = this.state.situation;
     return (
-     /* <form
-        onSubmit={this.handleSubmit}
-      >
-        <p>Title1: </p>
-        <input
-          type='text'
-          name='title'
-          placeholder="Title"
-          value={this.state.title}*/
-
       <div>
         <button type="Button" onClick={this.handleToggleClick}>Add</button>
-        {(p) &&
+        {(currentSituation) &&
           <form
             onSubmit={this.handleSubmit}
           >
@@ -74,8 +66,9 @@ class Title extends Component {
               onChange={this.myChangeHandler}
             />
             <div>
-              <button type="button" onClick={this.cleanHandler}>Cancel</button>
+              {/* <button type="button" onClick={this.cleanHandler}>Cancel</button> */}
               <button type="button" onClick={this.handleSubmit}>Save</button>
+              <button type ="button" onClick = {this.handleToggleClickClean}>Cancel</button>
             </div>
           </form>}
       </div>
