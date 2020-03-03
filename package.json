@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "npm": "5.8.0",
-    "node": "v10.15.12"
+    "node": "10.15.12"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
