@@ -6,7 +6,9 @@ class Title extends Component {
     this.state = {
       title: '',
       desc: '',
-      situation: true
+      situation: true,
+      checkSave: false,
+      checkEdit: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleClick = this.handleToggleClick.bind(this);
@@ -19,25 +21,28 @@ class Title extends Component {
     console.log('Description: ', this.state.desc);
 
     alert('Title: ' + this.state.title + '\nDescription: ' + this.state.desc);
+    this.setState({ checkSave: true });
   }
 
   myChangeHandler = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  // cleanHandler = (event) => {
-  //   this.setState({ title: '', desc: '' });
-
-  // }
   handleToggleClick() {
     this.setState(prevState => ({
       situation: !prevState.situation
     }));
   }
-  handleToggleClickClean = (event)  => {
-    this.setState({situation:false});
+  handleToggleClickClean = (event) => {
+    this.setState({ situation: false, title: '', desc: '', checkSave: false });
   }
 
+  handleEdit = (event) => {
+    this.setState({ checkEdit: true });
+  }
+  handleDelete = (evend) => {
+    this.setState({ title: '', desc: '', checkEdit: false, checkSave: false });
+  }
 
   render() {
     const currentSituation = this.state.situation;
@@ -66,12 +71,28 @@ class Title extends Component {
               onChange={this.myChangeHandler}
             />
             <div>
-              {/* <button type="button" onClick={this.cleanHandler}>Cancel</button> */}
               <button type="button" onClick={this.handleSubmit}>Save</button>
-              <button type ="button" onClick = {this.handleToggleClickClean}>Cancel</button>
+              <button type="button" onClick={this.handleToggleClickClean}>Cancel</button>
             </div>
+          </form>
+        }
+        {(this.state.checkSave) &&
+          <form>
+            <p>Title: {this.state.title} </p>
+            <p>Description: {this.state.desc}</p>
+            <button type="button" onClick={this.handleEdit}>Edit</button>
+            <button type="button" onClick={this.handleDelete}>Delete</button>
           </form>}
+        {
+          (this.state.checkEdit) &&
+          <form>
+            <p>Title: {this.state.title} </p>
+            <p>Description: {this.state.desc}</p>
+          </form>
+        }
+
       </div>
+
 
     );
   }
