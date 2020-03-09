@@ -8,7 +8,8 @@ class Title extends Component {
       desc: '',
       situation: true,
       checkSave: false,
-      checkEdit: false
+      checkEdit: false,
+      a:'', b:''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleClick = this.handleToggleClick.bind(this);
@@ -19,9 +20,10 @@ class Title extends Component {
     event.preventDefault();
     console.log('Title: ', this.state.title);
     console.log('Description: ', this.state.desc);
-
-    alert('Title: ' + this.state.title + '\nDescription: ' + this.state.desc);
-    this.setState({ checkSave: true });
+    // alert('Title: ' + this.state.title + '\nDescription: ' + this.state.desc);
+    this.setState({ checkSave: true,situation: false});
+    this.state.a = this.state.title;
+    this.state.b = this.state.desc;
   }
 
   myChangeHandler = (event) => {
@@ -30,7 +32,7 @@ class Title extends Component {
 
   handleToggleClick() {
     this.setState(prevState => ({
-      situation: !prevState.situation
+      situation: !prevState.situation,title: '', desc: '',checkSave: true
     }));
   }
   handleToggleClickClean = (event) => {
@@ -38,7 +40,7 @@ class Title extends Component {
   }
 
   handleEdit = (event) => {
-    this.setState({ checkEdit: true });
+    this.setState({ checkEdit: true,situation: true});
   }
   handleDelete = (evend) => {
     this.setState({ title: '', desc: '', checkEdit: false, checkSave: false });
@@ -78,17 +80,19 @@ class Title extends Component {
         }
         {(this.state.checkSave) &&
           <form>
-            <p>Title: {this.state.title} </p>
-            <p>Description: {this.state.desc}</p>
+            <p>{this.state.a} </p>
+            <p>{this.state.b}</p>
             <button type="button" onClick={this.handleEdit}>Edit</button>
             <button type="button" onClick={this.handleDelete}>Delete</button>
           </form>}
         {
-          (this.state.checkEdit) &&
-          <form>
-            <p>Title: {this.state.title} </p>
-            <p>Description: {this.state.desc}</p>
-          </form>
+          // (this.state.checkEdit) &&
+          // // const a = this.state.title;
+          // // const b = this.state.desc;
+          // <form>
+          //   <p>Title: {this.state.title} </p>
+          //   <p>Description: {this.state.desc}</p>
+          // </form>
         }
 
       </div>
