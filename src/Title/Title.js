@@ -22,8 +22,8 @@ class Title extends Component {
     console.log('Description: ', this.state.desc);
     // alert('Title: ' + this.state.title + '\nDescription: ' + this.state.desc);
     this.setState({ checkSave: true,situation: false});
-    this.state.a = this.state.title;
-    this.state.b = this.state.desc;
+    const a = this.state.title;
+    const b = this.state.desc;
   }
 
   myChangeHandler = (event) => {
