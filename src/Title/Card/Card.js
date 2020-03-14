@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
-import './Card.css';
+import React, { Component } from "react";
+import "./Card.css";
 class Card extends Component {
-
   render() {
-    const { handleDelete, handleEdit } = this.props;
-    const information = this.props.information.map((inf) =>
-      <div key={inf.idd}>
-        <p>{inf.title}</p>
-        <p>{inf.desc}</p>
-        <button type="button" onClick={handleEdit}>Edit</button>
-        <button type="button" onClick={handleDelete}>Delete</button>
-      </div>
-    );
+    const { info, toggleForm, idx } = this.props;
     return (
       <div>
-        <form>
-          {information}
-        </form>
+        -------------------------------------------
+        <p>title: {info.title}</p>
+        <p>description: {info.desc}</p>
+        <button onClick={() => toggleForm(idx)}>edit</button>
+        <button>delete</button>
+        <br />
+        -------------------------------------------
       </div>
     );
-
   }
 }
 export default Card;

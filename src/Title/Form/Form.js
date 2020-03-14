@@ -1,35 +1,72 @@
-import React, { Component } from 'react';
-import './Form.css';
+import React, { Component } from "react";
+import "./Form.css";
 class Form extends Component {
-  
+  state = {
+    title: "",
+    desc: ""
+  };
+
+  componentDidMount() {
+    this.initForm();
+  }
+
+  initForm = () => {
+    if (!this.props.info) return;
+
+    const { title, desc } = this.props.info;
+    this.setState({ title, desc });
+  };
+
+  onChangeForm = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  onSave = () => {
+    this.props.onSave(this.state, this.props.idx);
+    this.props.toggleForm();
+  };
+
+  onCancel = () => {
+    this.setState({ title: "", desc: "" });
+    this.props.toggleForm();
+  };
+
   render() {
-    const { title, desc, myChangeHandler, handleToggleClickClean, handleSubmit } = this.props;
+    // const { title, desc, myChangeHandler, handleToggleClickClean, handleSubmit } = this.props;
+
+    const {
+      state: { title, desc }
+    } = this;
     return (
       <div>
-        <form >
+        <form>
           <p>Title: </p>
           <input
-            type='text'
-            name='title'
+            type="text"
+            name="title"
             placeholder="Title"
             value={title}
-
-            onChange={myChangeHandler}
+            onChange={this.onChangeForm}
           />
           <p>Description: </p>
           <input
-            type='text'
-            name='desc'
+            type="text"
+            name="desc"
             placeholder="Description"
             value={desc}
-            onChange={myChangeHandler}
+            onChange={this.onChangeForm}
           />
           <div>
-            <button type="button" onClick={handleSubmit}>Save</button>
-            <button type="button" onClick={handleToggleClickClean}>Cancel</button>
+            <button type="button" onClick={this.onSave}>
+              Save
+            </button>
+            <button type="button" onClick={this.onCancel}>
+              Cancel
+            </button>
           </div>
         </form>
-      </div >
+      </div>
     );
   }
 }
