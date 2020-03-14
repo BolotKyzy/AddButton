@@ -33,8 +33,6 @@ class Form extends Component {
   };
 
   render() {
-    // const { title, desc, myChangeHandler, handleToggleClickClean, handleSubmit } = this.props;
-
     const {
       state: { title, desc }
     } = this;
