@@ -1,103 +1,88 @@
 import React, { Component } from 'react';
 import './Title.css';
+import Form from './Form/Form';
+import Card from './Card/Card';
 class Title extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      checkAddButton: true,
       title: '',
       desc: '',
-      situation: true,
-      checkSave: false,
-      checkEdit: false,
-      a:'', b:''
+      checkSaveButton: false,
+      checkEditButton: false,
+      information: []
+
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleClick = this.handleToggleClick.bind(this);
+  };
+  idd = 1;
 
-  }
 
-  handleSubmit(event) {
+  handleDelete = (id) => {
+    this.setState(({ information }) => {
+      const idx = information.findIndex((el) => el.id === id);
+      information.splice(idx, 1);
+      const before = information.splice(0, idx);
+      const after = information.splice(idx + 1);
+      const newArray = [...before, ...after];
+      return {
+        information: newArray
+      };
+    });
+
+  };
+
+  handleEdit = (id) => {
+    this.setState({ checkEditButton: true });
+    const idx = this.state.information.findIndex((el) => el.id === id);
+    console.log("111:", idx);
+  };
+
+
+  handleSubmit = (event) => {
     event.preventDefault();
+    this.setState({ checkSaveButton: true });
+
+
+    this.state.information.push({ id: this.idd++, title: this.state.title, desc: this.state.desc });
     console.log('Title: ', this.state.title);
     console.log('Description: ', this.state.desc);
-    // alert('Title: ' + this.state.title + '\nDescription: ' + this.state.desc);
-    this.setState({ checkSave: true,situation: false});
-    const a = this.state.title;
-    const b = this.state.desc;
+  }
+
+  handleToggleClick() {
+    this.setState({
+      checkAddButton: true, title: '', desc: '', checkSaveButton: true
+    });
   }
 
   myChangeHandler = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+
   }
 
-  handleToggleClick() {
-    this.setState(prevState => ({
-      situation: !prevState.situation,title: '', desc: '',checkSave: true
-    }));
-  }
   handleToggleClickClean = (event) => {
-    this.setState({ situation: false, title: '', desc: '', checkSave: false });
+    this.setState({ title: '', desc: '' });
   }
 
-  handleEdit = (event) => {
-    this.setState({ checkEdit: true,situation: true});
-  }
-  handleDelete = (evend) => {
-    this.setState({ title: '', desc: '', checkEdit: false, checkSave: false });
-  }
+
 
   render() {
-    const currentSituation = this.state.situation;
+    const currentAddButton = this.state.checkAddButton;
+    const checkSaveButton = this.state.checkSaveButton;
+    const checkEditButton = this.state.checkEditButton;
     return (
       <div>
         <button type="Button" onClick={this.handleToggleClick}>Add</button>
-        {(currentSituation) &&
-          <form
-            onSubmit={this.handleSubmit}
-          >
-            <p>Title: </p>
-            <input
-              type='text'
-              name='title'
-              placeholder="Title"
-              value={this.state.title}
-
-              onChange={this.myChangeHandler}
-            />
-            <p>Description: </p>
-            <input
-              type='text'
-              name='desc'
-              placeholder="Description"
-              value={this.state.desc}
-              onChange={this.myChangeHandler}
-            />
-            <div>
-              <button type="button" onClick={this.handleSubmit}>Save</button>
-              <button type="button" onClick={this.handleToggleClickClean}>Cancel</button>
-            </div>
-          </form>
+        {(currentAddButton) &&
+          <Form title={this.state.title} desc={this.state.desc} myChangeHandler={this.myChangeHandler} handleToggleClickClean={this.handleToggleClickClean} checkSaveButton={this.state.checkSaveButton} handleSubmit={this.handleSubmit} />
         }
-        {(this.state.checkSave) &&
-          <form>
-            <p>{this.state.a} </p>
-            <p>{this.state.b}</p>
-            <button type="button" onClick={this.handleEdit}>Edit</button>
-            <button type="button" onClick={this.handleDelete}>Delete</button>
-          </form>}
-        {
-          // (this.state.checkEdit) &&
-          // // const a = this.state.title;
-          // // const b = this.state.desc;
-          // <form>
-          //   <p>Title: {this.state.title} </p>
-          //   <p>Description: {this.state.desc}</p>
-          // </form>
+        {(checkSaveButton) &&
+          <Card information={this.state.information} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
         }
-
+        {/* {(checkEditButton) && 
+        <Form />} */}
       </div>
-
-
     );
   }
 }
