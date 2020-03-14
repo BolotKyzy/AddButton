@@ -1,87 +1,63 @@
-import React, { Component } from 'react';
-import './Title.css';
-import Form from './Form/Form';
-import Card from './Card/Card';
+import React, { Component } from "react";
+import "./Title.css";
+import Form from "./Form/Form";
+import Card from "./Card/Card";
 class Title extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      checkAddButton: true,
-      title: '',
-      desc: '',
-      checkSaveButton: false,
-      checkEditButton: false,
-      information: []
-
+      isFormOpen: -2,
+      infoList: []
     };
-    this.handleToggleClick = this.handleToggleClick.bind(this);
-  };
-  idd = 1;
+  }
 
-
-  handleDelete = (id) => {
-    this.setState(({ information }) => {
-      const idx = information.findIndex((el) => el.id === id);
-      information.splice(idx, 1);
-      const before = information.splice(0, idx);
-      const after = information.splice(idx + 1);
-      const newArray = [...before, ...after];
-      return {
-        information: newArray
-      };
-    });
-
+  toggleForm = (isFormOpen = -2) => {
+    if (this.state.isFormOpen === isFormOpen) isFormOpen = -2;
+    this.setState({ isFormOpen });
   };
 
-  handleEdit = (id) => {
-    this.setState({ checkEditButton: true });
-    const idx = this.state.information.findIndex((el) => el.id === id);
-    console.log("111:", idx);
+  createInfo = form => {
+    let infoList = [...this.state.infoList];
+    infoList.push(form);
+    this.setState({ infoList });
   };
 
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({ checkSaveButton: true });
-
-
-    this.state.information.push({ id: this.idd++, title: this.state.title, desc: this.state.desc });
-    console.log('Title: ', this.state.title);
-    console.log('Description: ', this.state.desc);
-  }
-
-  handleToggleClick() {
-    this.setState({
-      checkAddButton: true, title: '', desc: '', checkSaveButton: true
-    });
-  }
-
-  myChangeHandler = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-
-  }
-
-  handleToggleClickClean = (event) => {
-    this.setState({ title: '', desc: '' });
-  }
-
-
+  editInfo = (form, idx) => {
+    let infoList = [...this.state.infoList];
+    infoList[idx] = form;
+    this.setState({ infoList });
+  };
 
   render() {
-    const currentAddButton = this.state.checkAddButton;
-    const checkSaveButton = this.state.checkSaveButton;
-    const checkEditButton = this.state.checkEditButton;
+    const {
+      state: { isFormOpen, infoList },
+      toggleForm,
+      createInfo
+    } = this;
+
     return (
       <div>
-        <button type="Button" onClick={this.handleToggleClick}>Add</button>
-        {(currentAddButton) &&
-          <Form title={this.state.title} desc={this.state.desc} myChangeHandler={this.myChangeHandler} handleToggleClickClean={this.handleToggleClickClean} checkSaveButton={this.state.checkSaveButton} handleSubmit={this.handleSubmit} />
-        }
-        {(checkSaveButton) &&
-          <Card information={this.state.information} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
-        }
-        {/* {(checkEditButton) && 
-        <Form />} */}
+        <button type="Button" onClick={() => toggleForm(-1)}>
+          Add
+        </button>
+        {isFormOpen === -1 && (
+          <Form toggleForm={toggleForm} onSave={createInfo} />
+        )}
+
+        {infoList.map((info, idx) => (
+          <div key={idx}>
+            <Card info={info} toggleForm={toggleForm} idx={idx} />
+            {isFormOpen === idx && (
+              <Form
+                toggleForm={toggleForm}
+                info={info}
+                onSave={this.editInfo}
+                idx={idx}
+              />
+            )}
+          </div>
+        ))}
       </div>
     );
   }
