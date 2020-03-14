@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Form.css';
 class Form extends Component {
-
+  
   render() {
     const { title, desc, myChangeHandler, handleToggleClickClean, handleSubmit } = this.props;
     return (
