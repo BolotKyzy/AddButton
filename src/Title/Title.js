@@ -29,11 +29,18 @@ class Title extends Component {
     this.setState({ infoList });
   };
 
+  deleteInfo = idx => {
+    let infoList = [...this.state.infoList];
+    infoList.splice(idx, 1);
+    this.setState({ infoList });
+  };
+
   render() {
     const {
       state: { isFormOpen, infoList },
       toggleForm,
-      createInfo
+      createInfo,
+      deleteInfo
     } = this;
 
     return (
@@ -47,7 +54,12 @@ class Title extends Component {
 
         {infoList.map((info, idx) => (
           <div key={idx}>
-            <Card info={info} toggleForm={toggleForm} idx={idx} />
+            <Card
+              info={info}
+              toggleForm={toggleForm}
+              idx={idx}
+              onDelete={deleteInfo}
+            />
             {isFormOpen === idx && (
               <Form
                 toggleForm={toggleForm}
