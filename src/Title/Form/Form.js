@@ -25,11 +25,13 @@ class Form extends Component {
   onSave = () => {
     this.props.onSave(this.state, this.props.idx);
     this.props.toggleForm();
+    this.props.toggleCard();
   };
 
   onCancel = () => {
     this.setState({ title: "", desc: "" });
     this.props.toggleForm();
+
   };
 
   render() {
@@ -56,7 +58,7 @@ class Form extends Component {
             onChange={this.onChangeForm}
           />
           <div>
-            <button type="button" onClick={this.onSave}>
+            <button type="button" onClick={this.onSave} >
               Save
             </button>
             <button type="button" onClick={this.onCancel}>
