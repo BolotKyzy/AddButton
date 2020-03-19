@@ -3,7 +3,6 @@ import "./Card.css";
 class Card extends Component {
   changeForm = () => {
     this.props.toggleForm(this.props.idx);
-    this.props.toggleCard(-1);
   }
   
 

@@ -25,7 +25,6 @@ class Form extends Component {
   onSave = () => {
     this.props.onSave(this.state, this.props.idx);
     this.props.toggleForm();
-    this.props.toggleCard();
   };
 
   onCancel = () => {

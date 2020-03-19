@@ -8,7 +8,6 @@ class Title extends Component {
 
     this.state = {
       isFormOpen: -2,
-      isCardOpen: -2,
       infoList: []
     };
   }
@@ -16,13 +15,7 @@ class Title extends Component {
   toggleForm = (isFormOpen = -2) => {
     if (this.state.isFormOpen === isFormOpen) isFormOpen = -2;
     this.setState({ isFormOpen });
-    this.toggleCard();
   };
-
-  toggleCard = (isCardOpen = -2) => {
-    if(this.state.isCardOpen === isCardOpen) isCardOpen = -2;
-    this.setState({isCardOpen});
-  }
 
   createInfo = form => {
     let infoList = [...this.state.infoList];
@@ -31,7 +24,6 @@ class Title extends Component {
   };
 
   editInfo = (form, idx) => {
-    // this.setState(isFormOpen: -2);
     let infoList = [...this.state.infoList];
     infoList[idx] = form;
     this.setState({ infoList });
@@ -45,9 +37,8 @@ class Title extends Component {
 
   render() {
     const {
-      state: { isFormOpen, infoList , isCardOpen},
+      state: { isFormOpen, infoList },
       toggleForm,
-      toggleCard,
       createInfo,
       deleteInfo
     } = this;
@@ -58,26 +49,23 @@ class Title extends Component {
           Add
         </button>
         {isFormOpen === -1 && (
-          <Form toggleForm={toggleForm} onSave={createInfo} toggleCard = {this.toggleCard}/>
+          <Form toggleForm={toggleForm} onSave={createInfo} />
         )}
 
         {infoList.map((info, idx) => (
           <div key={idx}>
-            <div>
-              {isCardOpen === -2 && (
-            <Card
-              info={info}
-              toggleForm = {toggleForm}
-              toggleCard = {toggleCard}
-              idx = {idx}
-              onDelete = {deleteInfo}
-            />
-              )}
-            </div>
+            {isFormOpen !== idx && (
+              <Card
+                info={info}
+                toggleForm={toggleForm}
+                idx={idx}
+                onDelete={deleteInfo}
+              />
+            )}
+
             {isFormOpen === idx && (
               <Form
                 toggleForm={toggleForm}
-                toggleCard={toggleCard}
                 info={info}
                 onSave={this.editInfo}
                 idx={idx}
