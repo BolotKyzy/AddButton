@@ -54,23 +54,20 @@ class Title extends Component {
 
         {infoList.map((info, idx) => (
           <div key={idx}>
-            {isFormOpen !== idx && (
               <Card
                 info={info}
                 toggleForm={toggleForm}
                 idx={idx}
                 onDelete={deleteInfo}
               />
-            )}
-
-            {isFormOpen === idx && (
+              { isFormOpen == idx && 
               <Form
                 toggleForm={toggleForm}
                 info={info}
                 onSave={this.editInfo}
                 idx={idx}
               />
-            )}
+            }
           </div>
         ))}
       </div>
